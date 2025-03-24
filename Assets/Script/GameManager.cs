@@ -10,6 +10,8 @@ public class GameManager : MonoBehaviour
     [SerializeField] private float respawnDelay;
     public Player player;
 
+    [Header("Object")]
+    public GameObject prefab;
 
     [Header("FRUIT MANAGEMENT")]
     public bool randomFruit;
@@ -43,6 +45,16 @@ public class GameManager : MonoBehaviour
         GameObject playerRespawn = Instantiate(playerPrefab, playerSpawnPoint.position, Quaternion.identity);
         player = playerRespawn.GetComponent<Player>();
         
+    }
+    public void CreateObject(GameObject prefab, Transform position, float delay =0) // tạo ra 1 object sau 1 khoảng thời gian
+    {
+        StartCoroutine(CoolDownCreateObject(prefab, position, delay));
+    }
+    private IEnumerator CoolDownCreateObject(GameObject prefab, Transform position, float delay)
+    {
+        Vector3 vector3 = position.position;
+        yield return new WaitForSeconds(delay);
+        GameObject arrow = Instantiate(prefab, vector3, Quaternion.identity);
     }
     public bool RandomFruit() => randomFruit;
     public void FruitScore()
